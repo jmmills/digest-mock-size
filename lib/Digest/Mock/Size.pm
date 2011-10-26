@@ -1,12 +1,21 @@
 package Digest::Mock::Size;
 
-use 5.006;
+use 5.10.0;
 use strict;
 use warnings;
+use parent 'Digest::base';
+
+sub _buffer {
+    my $self = shift;
+    my $buf = $self->{_buffer} ||= [];
+    return wantarray? @{ $buf } : $buf;
+}
+
+use namespace::clean;
 
 =head1 NAME
 
-Digest::Mock::Size - The great new Digest::Mock::Size!
+Digest::Mock::Size - Mock digest interface to return size of message
 
 =head1 VERSION
 
@@ -19,34 +28,93 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
+See L<Digest> module.
 
-Perhaps a little code snippet.
+=head1 METHODS
 
-    use Digest::Mock::Size;
+=head2 new
 
-    my $foo = Digest::Mock::Size->new();
-    ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 SUBROUTINES/METHODS
-
-=head2 function1
+A very simple constructor
 
 =cut
 
-sub function1 {
+sub new { return bless {}, shift; }
+
+=head2 clone
+
+Clone the digest object
+
+=cut
+
+sub clone {
+    my $self = shift;
+    return bless { %{ $self } }, ref( $self );
 }
 
-=head2 function2
+=head2 reset
+
+Reset the message buffer
 
 =cut
 
-sub function2 {
+sub reset {
+    my $self = shift;
+    
+    @{ $self->_buffer } = ();
+    
+    return $self;
+}
+
+=head2 message
+
+Returns digest message buffer
+
+=cut
+
+sub message {
+    my $self = shift;
+    return wantarray? @{ $self->_buffer } : join '', @{ $self->_buffer };
+}
+
+=head2 reset_with_message
+
+Returns the message buffer and resets it
+
+=cut
+
+sub reset_with_message {
+    my $self = shift;
+    my $msg  = $self->message;
+    
+    $self->reset;
+    
+    return $msg;
+}
+
+=head2 add
+
+Add data to the digest message buffer
+
+=cut
+
+sub add {
+    my $self = shift;
+    
+    push @{ $self->_buffer }, @_ if @_;
+    
+    return $self;
+}
+
+=head2 digest
+
+Returns the length of digest message
+B<Beware>: this is the length of the message prior to any digesting
+
+=cut
+
+sub digest {
+    my $self = shift;
+    return length $self->reset_with_message;
 }
 
 =head1 AUTHOR
