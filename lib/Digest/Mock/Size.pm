@@ -105,16 +105,30 @@ sub add {
     return $self;
 }
 
+=head2 size RESET
+
+Returns the size of the message
+If boolean RESET is true it will reset the message buffer
+
+=cut
+
+sub size {
+    my $self = shift;
+    return length shift()?
+        $self->message_and_reset :
+        $self->message;
+}
+
 =head2 digest
 
-Returns the length of digest message
+Returns packed size of message and resets as per interface spec
 B<Beware>: this is the length of the message prior to any digesting
 
 =cut
 
 sub digest {
     my $self = shift;
-    return pack 'N*', length $self->reset_with_message;
+    return pack 'N*', $self->size(1);
 }
 
 =head1 AUTHOR
