@@ -7,6 +7,9 @@ license  'perl';
 
 build_requires 'Test::More';
 
+requires 'Digest::base';
+requires 'namespace::clean';
+
 auto_install;
 
 WriteAll;
