@@ -114,7 +114,7 @@ B<Beware>: this is the length of the message prior to any digesting
 
 sub digest {
     my $self = shift;
-    return length $self->reset_with_message;
+    return pack 'N*', length $self->reset_with_message;
 }
 
 =head1 AUTHOR
