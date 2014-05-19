@@ -1,5 +1,8 @@
 Revision history for Digest-Mock-Size
 
-0.01    Date/time
-        First version, released on an unsuspecting world.
+0.01_1  Date/time
+  * First version, released on an unsuspecting world.
 
+0.01    May 19th 2014
+	*	Converted to Dist::Zilla
+	* added travis CI
