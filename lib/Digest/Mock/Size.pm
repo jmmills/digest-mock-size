@@ -171,6 +171,10 @@ L<http://cpanratings.perl.org/d/Digest-Mock-Size>
 
 L<http://search.cpan.org/dist/Digest-Mock-Size/>
 
+=item * GitHub
+
+L<https://github.com/jmmills/digest-mock-size/>
+
 =back
 
 
